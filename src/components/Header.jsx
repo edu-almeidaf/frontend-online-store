@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Header extends Component {
   state = {
@@ -26,6 +27,13 @@ class Header extends Component {
             onChange={ this.handleChange }
           />
         </label>
+        <Link
+          data-testid="shopping-cart-button"
+          to="/shoppingCart"
+        >
+          Carrinho de Compras
+
+        </Link>
       </div>
     );
   }
