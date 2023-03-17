@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Categories from '../components/Categories';
 
 class Home extends Component {
   state = {
@@ -7,18 +8,23 @@ class Home extends Component {
 
   render() {
     const { awaiting } = this.state;
-    if (awaiting) {
-      return (
-        <p
-          data-testid="home-initial-message"
-        >
-          Digite algum termo de pesquisa ou escolha uma categoria.
-        </p>
-      );
-    }
     return (
       <div>
-        oi
+        <Categories />
+        {
+          awaiting
+            ? (
+              <p
+                data-testid="home-initial-message"
+              >
+                Digite algum termo de pesquisa ou escolha uma categoria.
+              </p>
+            )
+            : (
+              <div />
+            )
+
+        }
       </div>
     );
   }
