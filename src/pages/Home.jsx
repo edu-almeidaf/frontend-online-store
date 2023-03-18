@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Categories from '../components/Categories';
+import SearchResults from '../components/SearchResults';
 
 class Home extends Component {
-  state = {
-    awaiting: true,
-  };
-
   render() {
-    const { awaiting } = this.state;
+    const { awaiting, searchResults } = this.props;
     return (
       <div>
         <Categories />
@@ -21,7 +19,9 @@ class Home extends Component {
               </p>
             )
             : (
-              <div />
+              <SearchResults
+                searchResults={ searchResults }
+              />
             )
 
         }
@@ -29,5 +29,16 @@ class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  awaiting: PropTypes.bool.isRequired,
+  searchResults: PropTypes.arrayOf(
+    PropTypes.shape({
+    }),
+  ),
+};
+Home.defaultProps = {
+  searchResults: [],
+};
 
 export default Home;
