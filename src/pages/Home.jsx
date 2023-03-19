@@ -5,10 +5,12 @@ import SearchResults from '../components/SearchResults';
 
 class Home extends Component {
   render() {
-    const { awaiting, searchResults } = this.props;
+    const { awaiting, searchResults, handleChange } = this.props;
     return (
       <div>
-        <Categories />
+        <Categories
+          handleChange={ handleChange }
+        />
         {
           awaiting
             ? (
@@ -36,6 +38,7 @@ Home.propTypes = {
     PropTypes.shape({
     }),
   ),
+  handleChange: PropTypes.func.isRequired,
 };
 Home.defaultProps = {
   searchResults: [],

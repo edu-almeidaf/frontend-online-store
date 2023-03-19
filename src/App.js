@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { getProductsFromCategoryAndQuery } from './services/api';
+import { getProductsFromCategoryAndQuery, getProductsFromCategory } from './services/api';
 import './App.css';
 import Home from './pages/Home';
 import Checkout from './pages/Checkout';
@@ -11,13 +11,23 @@ import Header from './components/Header';
 class App extends React.Component {
   state = {
     query: '',
+    categoryId: '',
     searchResults: {},
     awaiting: true,
   };
 
   handleSearch = async () => {
-    const { query } = this.state;
-    const searchResults = await getProductsFromCategoryAndQuery('', query);
+    const { query, categoryId } = this.state;
+    const searchResults = await getProductsFromCategoryAndQuery(categoryId, query);
+    this.setState({
+      awaiting: false,
+      searchResults,
+    });
+  };
+
+  handleSearchCategory = async () => {
+    const { categoryId } = this.state;
+    const searchResults = await getProductsFromCategory(categoryId);
     this.setState({
       awaiting: false,
       searchResults,
@@ -25,10 +35,16 @@ class App extends React.Component {
   };
 
   handleChange = ({ target }) => {
-    const { name, value } = target;
-    this.setState({
-      [name]: value,
-    });
+    const { name, value, type } = target;
+    if (type === 'radio') {
+      this.setState({
+        [name]: value,
+      }, this.handleSearchCategory);
+    } else {
+      this.setState({
+        [name]: value,
+      });
+    }
   };
 
   render() {
@@ -48,6 +64,7 @@ class App extends React.Component {
               <Home
                 searchResults={ searchResults.results }
                 awaiting={ awaiting }
+                handleChange={ this.handleChange }
               />
             ) }
           />
