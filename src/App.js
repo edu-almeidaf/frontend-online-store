@@ -69,7 +69,7 @@ class App extends React.Component {
             ) }
           />
           <Route exact path="/checkout" component={ Checkout } />
-          <Route exact path="/productDetails" component={ ProductDetails } />
+          <Route exact path="/productDetails/:id" component={ ProductDetails } />
           <Route exact path="/shoppingCart" component={ ShoppingCart } />
         </Switch>
       </div>
