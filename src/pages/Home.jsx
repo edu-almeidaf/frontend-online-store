@@ -5,7 +5,7 @@ import SearchResults from '../components/SearchResults';
 
 class Home extends Component {
   render() {
-    const { awaiting, searchResults, handleChange } = this.props;
+    const { awaiting, searchResults, handleChange, toShoppingCart } = this.props;
     return (
       <div>
         <Categories
@@ -23,6 +23,7 @@ class Home extends Component {
             : (
               <SearchResults
                 searchResults={ searchResults }
+                toShoppingCart={ toShoppingCart }
               />
             )
 
@@ -39,6 +40,7 @@ Home.propTypes = {
     }),
   ),
   handleChange: PropTypes.func.isRequired,
+  toShoppingCart: PropTypes.func.isRequired,
 };
 Home.defaultProps = {
   searchResults: [],

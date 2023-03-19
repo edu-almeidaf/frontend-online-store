@@ -4,7 +4,7 @@ import ProductsCards from './ProductsCards';
 
 class SearchResults extends Component {
   render() {
-    const { searchResults } = this.props;
+    const { searchResults, toShoppingCart } = this.props;
     return (
       <div>
         {
@@ -15,6 +15,7 @@ class SearchResults extends Component {
                 <ProductsCards
                   key={ result.id }
                   result={ result }
+                  toShoppingCart={ toShoppingCart }
                 />
               ))
             )
@@ -29,6 +30,7 @@ SearchResults.propTypes = {
     PropTypes.shape({
     }).isRequired,
   ).isRequired,
+  toShoppingCart: PropTypes.func.isRequired,
 };
 
 export default SearchResults;
