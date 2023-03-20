@@ -7,36 +7,36 @@ class ProductDetails extends Component {
     url: '',
     title: '',
     price: 0,
-
   };
 
   componentDidMount() {
     this.setProductDetails();
   }
 
-  handleClick = () => {
-    const { history } = this.props;
-    history.push('/shoppingCart');
-  };
+  // handleClick = () => {
+  //   const { history } = this.props;
+  //   history.push('/shoppingCart');
+  // };
 
   setProductDetails = async () => {
     const { match: { params: { id } } } = this.props;
     const getProductDetails = await getProductById(id);
     const { url } = getProductDetails.pictures[0];
     const { price, title } = getProductDetails;
+    // const idProduct = getProductDetails.id;
     this.setState({
       url,
       title,
       price,
     });
-    console.log(url, title, price);
   };
 
   render() {
     const { url, title, price } = this.state;
+    const { toShoppingCart, match: { params: { id } } } = this.props;
 
     return (
-      <div>
+      <div id={ id }>
         <h1 data-testid="product-detail-name">{ title }</h1>
         <img
           data-testid="product-detail-image"
@@ -45,11 +45,11 @@ class ProductDetails extends Component {
         />
         <h3 data-testid="product-detail-price">{ price }</h3>
         <button
-          data-testid="shopping-cart-button"
-          onClick={ this.handleClick }
+          data-testid="product-detail-add-to-cart"
+          onClick={ toShoppingCart }
 
         >
-          Adicionar ao carrinho
+          Adicionar ao Carrinho
         </button>
       </div>
     );
@@ -65,5 +65,6 @@ ProductDetails.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  toShoppingCart: PropTypes.func.isRequired,
 };
 export default ProductDetails;
