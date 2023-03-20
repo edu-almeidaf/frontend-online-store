@@ -23,7 +23,6 @@ CheckoutCard.propTypes = {
     thumbnail: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     quantity: PropTypes.number.isRequired,
-
   }).isRequired,
 };
 export default CheckoutCard;
