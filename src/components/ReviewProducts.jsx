@@ -6,12 +6,9 @@ class ReviewProducts extends Component {
     const { local } = this.props;
     return (
       <div>
-        { 
-        local.map((item) => ()) se tiver o card com id tal - quantidade + 1 - 
-            
-        }
+        <p>oi</p>
       </div>
-    );
+    )
   }
 }
 
