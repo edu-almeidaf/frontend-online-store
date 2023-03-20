@@ -13,11 +13,15 @@ class ShoppingCart extends Component {
   }
 
   getLocalStorage = () => {
-    const cartArray = JSON.parse(localStorage.getItem('Cart'));
+    const cartArray = JSON.parse(localStorage.getItem('Cart')) || [];
     if (cartArray.length > 0) {
       this.setState({
         cartArray,
         awaiting: false,
+      });
+    } else {
+      this.setState({
+        awaiting: true,
       });
     }
   };
