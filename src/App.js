@@ -15,7 +15,6 @@ class App extends React.Component {
     searchResults: {},
     awaiting: true,
     arrayLocalStorage: [],
-    quantity: [],
   };
 
   AddToLocalStorage = () => {
@@ -77,7 +76,6 @@ class App extends React.Component {
 
   render() {
     const { query, searchResults, awaiting } = this.state;
-    console.log(this.state.arrayLocalStorage);
     return (
       <div className="App">
         <Header
