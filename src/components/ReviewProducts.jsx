@@ -1,19 +1,31 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import CheckoutCard from './CheckoutCard';
 
 class ReviewProducts extends Component {
   render() {
-    // const { local } = this.props;
+    const { cartArray } = this.props;
     return (
       <div>
-        <p>oi</p>
+        {
+          cartArray.map((product) => (
+            <CheckoutCard
+              key={ product.id }
+              product={ product }
+            />
+          ))
+        }
       </div>
     );
   }
 }
 
 ReviewProducts.propTypes = {
+  cartArray: PropTypes.arrayOf(
+    PropTypes.shape({
 
+    }).isRequired,
+  ).isRequired,
 };
 
 export default ReviewProducts;

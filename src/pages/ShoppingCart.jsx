@@ -5,7 +5,7 @@ import TotalPrice from '../components/TotalPrice';
 class ShoppingCart extends Component {
   state = {
     awaiting: true,
-    local: [],
+    cartArray: [],
   };
 
   componentDidMount() {
@@ -13,17 +13,17 @@ class ShoppingCart extends Component {
   }
 
   getLocalStorage = () => {
-    const local = JSON.parse(localStorage.getItem('Carrinho'));
-    if (local.length > 0) {
+    const cartArray = JSON.parse(localStorage.getItem('Cart'));
+    if (cartArray.length > 0) {
       this.setState({
-        local,
+        cartArray,
         awaiting: false,
       });
     }
   };
 
   render() {
-    const { awaiting, local } = this.state;
+    const { awaiting, cartArray } = this.state;
     if (awaiting) {
       return (
         <p
@@ -36,10 +36,10 @@ class ShoppingCart extends Component {
     return (
       <div>
         <ReviewProducts
-          local={ local }
+          cartArray={ cartArray }
         />
         <TotalPrice
-          local={ local }
+          cartArray={ cartArray }
         />
       </div>
     );
