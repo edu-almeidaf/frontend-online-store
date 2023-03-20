@@ -1,12 +1,33 @@
 import React, { Component } from 'react';
+import ReviewProducts from '../components/ReviewProducts';
+import TotalPrice from '../components/TotalPrice';
 
 class ShoppingCart extends Component {
   state = {
     awaiting: true,
+    cartArray: [],
+  };
+
+  componentDidMount() {
+    this.getLocalStorage();
+  }
+
+  getLocalStorage = () => {
+    const cartArray = JSON.parse(localStorage.getItem('Cart')) || [];
+    if (cartArray.length > 0) {
+      this.setState({
+        cartArray,
+        awaiting: false,
+      });
+    } else {
+      this.setState({
+        awaiting: true,
+      });
+    }
   };
 
   render() {
-    const { awaiting } = this.state;
+    const { awaiting, cartArray } = this.state;
     if (awaiting) {
       return (
         <p
@@ -18,7 +39,12 @@ class ShoppingCart extends Component {
     }
     return (
       <div>
-        carrinho
+        <ReviewProducts
+          cartArray={ cartArray }
+        />
+        <TotalPrice
+          cartArray={ cartArray }
+        />
       </div>
     );
   }

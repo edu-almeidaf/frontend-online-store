@@ -14,6 +14,32 @@ class App extends React.Component {
     categoryId: '',
     searchResults: {},
     awaiting: true,
+    cart: [],
+  };
+
+  AddToLocalStorage = () => {
+    const { cart } = this.state;
+    localStorage.setItem('Cart', JSON.stringify(cart));
+  };
+
+  toShoppingCart = ({ target }) => {
+    const { searchResults, cart } = this.state;
+    const productId = target.parentNode.id;
+    const productSelected = searchResults
+      .results.find((result) => result.id === productId);
+    const searchProduct = cart.find((product) => product.id === productId);
+
+    if (searchProduct) {
+      searchProduct.quantity += 1;
+      this.setState(() => ({
+        cart,
+      }), this.AddToLocalStorage);
+    } else {
+      this.setState((prevState) => ({
+        cart: [...prevState.cart,
+          { ...productSelected, quantity: 1 }],
+      }), this.AddToLocalStorage);
+    }
   };
 
   handleSearch = async () => {
@@ -65,6 +91,7 @@ class App extends React.Component {
                 searchResults={ searchResults.results }
                 awaiting={ awaiting }
                 handleChange={ this.handleChange }
+                toShoppingCart={ this.toShoppingCart }
               />
             ) }
           />
