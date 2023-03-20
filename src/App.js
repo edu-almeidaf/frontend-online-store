@@ -25,6 +25,7 @@ class App extends React.Component {
   toShoppingCart = ({ target }) => {
     const { searchResults, cart } = this.state;
     const productId = target.parentNode.id;
+    console.log(searchResults);
     const productSelected = searchResults
       .results.find((result) => result.id === productId);
     const searchProduct = cart.find((product) => product.id === productId);
@@ -96,7 +97,17 @@ class App extends React.Component {
             ) }
           />
           <Route exact path="/checkout" component={ Checkout } />
-          <Route exact path="/productDetails/:id" component={ ProductDetails } />
+          {/* <Route exact path="/productDetails/:id" component={ ProductDetails } /> */}
+          <Route
+            exact
+            path="/productDetails/:id"
+            render={ (props) => (
+              <ProductDetails
+                toShoppingCart={ this.toShoppingCart }
+                { ...props }
+              />
+            ) }
+          />
           <Route exact path="/shoppingCart" component={ ShoppingCart } />
         </Switch>
       </div>
