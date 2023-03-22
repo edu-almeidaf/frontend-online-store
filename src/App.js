@@ -30,12 +30,12 @@ class App extends React.Component {
 
   increaseQuantity = (productId) => {
     const { cart } = this.state;
-    /*  const productSelected = cart.find((product) => product.id === productId);
-    productSelected.quantity += 1; */
-    console.log(cart[0]);
     const updatedCart = cart.map((product) => {
       if (product.id === productId) {
-        return { ...product, quantity: product.quantity + 1 };
+        if (product.quantity < product.available_quantity) {
+          return { ...product, quantity: product.quantity + 1 };
+        }
+        return { ...product, quantity: product.available_quantity };
       }
       return product;
     });
@@ -43,7 +43,6 @@ class App extends React.Component {
       cart: updatedCart,
     }), () => {
       this.AddToLocalStorage();
-      /*    this.verifyIncreaseButton(productSelected); */
     });
   };
 
@@ -51,7 +50,10 @@ class App extends React.Component {
     const { cart } = this.state;
     const updatedCart = cart.map((product) => {
       if (product.id === productId) {
-        return { ...product, quantity: product.quantity - 1 };
+        if (product.quantity > 1) {
+          return { ...product, quantity: product.quantity - 1 };
+        }
+        return { ...product, quantity: 1 };
       }
       return product;
     });
@@ -59,37 +61,9 @@ class App extends React.Component {
       cart: updatedCart,
     }), () => {
       this.AddToLocalStorage();
-      /*    this.verifyIncreaseButton(productSelected); */
     });
   };
 
-  /*   verifyDecreaseButton = ({ target }) => {
-    const { cart } = this.state;
-    const productId = target.parentNode.className;
-    const productSelected = cart.find((product) => product.id === productId);
-    if (productSelected.quantity <= 1) {
-      this.setState({
-        disableDecreaseButton: true,
-      });
-    } else {
-      this.setState({
-        disableDecreaseButton: false,
-      });
-    }
-  };
-
-  verifyIncreaseButton = (productSelected) => {
-    const { cart } = this.state;
-    if (productSelected.quantity >= cart.available_quantity) {
-      this.setState({
-        disableIncreaseButton: true,
-      });
-    } else {
-      this.setState({
-        disableIncreaseButton: false,
-      });
-    }
-  }; */
   getToLocalStorage = () => {
     const local = JSON.parse(localStorage.getItem('Cart'));
     if (!local) {
@@ -163,7 +137,6 @@ class App extends React.Component {
       awaiting,
       cart,
     } = this.state;
-    console.log(cart);
     return (
       <div className="App">
         <Header
@@ -185,7 +158,6 @@ class App extends React.Component {
             ) }
           />
           <Route exact path="/checkout" component={ Checkout } />
-          {/* <Route exact path="/productDetails/:id" component={ ProductDetails } /> */}
           <Route
             exact
             path="/productDetails/:id"
