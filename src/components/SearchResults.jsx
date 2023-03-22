@@ -5,6 +5,7 @@ import ProductsCards from './ProductsCards';
 class SearchResults extends Component {
   render() {
     const { searchResults, toShoppingCart } = this.props;
+    console.log(searchResults);
     return (
       <div>
         {
