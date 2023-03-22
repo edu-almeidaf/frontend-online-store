@@ -1,34 +1,16 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReviewProducts from '../components/ReviewProducts';
 import TotalPrice from '../components/TotalPrice';
 
 class ShoppingCart extends Component {
-  state = {
-    awaiting: true,
-    cartArray: [],
-  };
-
-  componentDidMount() {
-    this.getLocalStorage();
-  }
-
-  getLocalStorage = () => {
-    const cartArray = JSON.parse(localStorage.getItem('Cart')) || [];
-    if (cartArray.length > 0) {
-      this.setState({
-        cartArray,
-        awaiting: false,
-      });
-    } else {
-      this.setState({
-        awaiting: true,
-      });
-    }
-  };
-
   render() {
-    const { awaiting, cartArray } = this.state;
-    if (awaiting) {
+    const { removeProduct,
+      increaseQuantity,
+      decreaseQuantity,
+      cart } = this.props;
+
+    if (cart.length === 0) {
       return (
         <p
           data-testid="shopping-cart-empty-message"
@@ -40,14 +22,27 @@ class ShoppingCart extends Component {
     return (
       <div>
         <ReviewProducts
-          cartArray={ cartArray }
+          cart={ cart }
+          removeProduct={ removeProduct }
+          increaseQuantity={ increaseQuantity }
+          decreaseQuantity={ decreaseQuantity }
+
         />
         <TotalPrice
-          cartArray={ cartArray }
+          cart={ cart }
         />
       </div>
     );
   }
 }
+ShoppingCart.propTypes = {
+  cart: PropTypes.arrayOf(PropTypes.shape({
+
+  }).isRequired).isRequired,
+  removeProduct: PropTypes.func.isRequired,
+  increaseQuantity: PropTypes.func.isRequired,
+  decreaseQuantity: PropTypes.func.isRequired,
+
+};
 
 export default ShoppingCart;

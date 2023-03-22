@@ -17,6 +17,64 @@ class App extends React.Component {
     cart: [],
   };
 
+  componentDidMount() {
+    this.getToLocalStorage();
+  }
+
+  removeProduct = (productId) => {
+    const { cart } = this.state;
+    this.setState({
+      cart: cart.filter((product) => (product.id !== productId)),
+    }, this.AddToLocalStorage);
+  };
+
+  increaseQuantity = (productId) => {
+    const { cart } = this.state;
+    const updatedCart = cart.map((product) => {
+      if (product.id === productId) {
+        if (product.quantity < product.available_quantity) {
+          return { ...product, quantity: product.quantity + 1 };
+        }
+        return { ...product, quantity: product.available_quantity };
+      }
+      return product;
+    });
+    this.setState(() => ({
+      cart: updatedCart,
+    }), () => {
+      this.AddToLocalStorage();
+    });
+  };
+
+  decreaseQuantity = (productId) => {
+    const { cart } = this.state;
+    const updatedCart = cart.map((product) => {
+      if (product.id === productId) {
+        if (product.quantity > 1) {
+          return { ...product, quantity: product.quantity - 1 };
+        }
+        return { ...product, quantity: 1 };
+      }
+      return product;
+    });
+    this.setState(() => ({
+      cart: updatedCart,
+    }), () => {
+      this.AddToLocalStorage();
+    });
+  };
+
+  getToLocalStorage = () => {
+    const local = JSON.parse(localStorage.getItem('Cart'));
+    if (!local) {
+      localStorage.setItem('Cart', JSON.stringify([]));
+    } else {
+      this.setState({
+        cart: local,
+      });
+    }
+  };
+
   AddToLocalStorage = () => {
     const { cart } = this.state;
     localStorage.setItem('Cart', JSON.stringify(cart));
@@ -25,7 +83,6 @@ class App extends React.Component {
   toShoppingCart = ({ target }) => {
     const { searchResults, cart } = this.state;
     const productId = target.parentNode.id;
-    console.log(searchResults);
     const productSelected = searchResults
       .results.find((result) => result.id === productId);
     const searchProduct = cart.find((product) => product.id === productId);
@@ -75,7 +132,11 @@ class App extends React.Component {
   };
 
   render() {
-    const { query, searchResults, awaiting } = this.state;
+    const { query,
+      searchResults,
+      awaiting,
+      cart,
+    } = this.state;
     return (
       <div className="App">
         <Header
@@ -97,7 +158,6 @@ class App extends React.Component {
             ) }
           />
           <Route exact path="/checkout" component={ Checkout } />
-          {/* <Route exact path="/productDetails/:id" component={ ProductDetails } /> */}
           <Route
             exact
             path="/productDetails/:id"
@@ -108,7 +168,18 @@ class App extends React.Component {
               />
             ) }
           />
-          <Route exact path="/shoppingCart" component={ ShoppingCart } />
+          <Route
+            exact
+            path="/shoppingCart"
+            render={ () => (
+              <ShoppingCart
+                cart={ cart }
+                increaseQuantity={ this.increaseQuantity }
+                decreaseQuantity={ this.decreaseQuantity }
+                removeProduct={ this.removeProduct }
+              />
+            ) }
+          />
         </Switch>
       </div>
     );

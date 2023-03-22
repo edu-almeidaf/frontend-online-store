@@ -4,14 +4,19 @@ import CheckoutCard from './CheckoutCard';
 
 class ReviewProducts extends Component {
   render() {
-    const { cartArray } = this.props;
+    const { cart, removeProduct, increaseQuantity, decreaseQuantity,
+
+    } = this.props;
     return (
       <div>
         {
-          cartArray.map((product) => (
+          cart.map((product) => (
             <CheckoutCard
               key={ product.id }
               product={ product }
+              removeProduct={ removeProduct }
+              increaseQuantity={ increaseQuantity }
+              decreaseQuantity={ decreaseQuantity }
             />
           ))
         }
@@ -21,11 +26,14 @@ class ReviewProducts extends Component {
 }
 
 ReviewProducts.propTypes = {
-  cartArray: PropTypes.arrayOf(
+  cart: PropTypes.arrayOf(
     PropTypes.shape({
 
     }).isRequired,
   ).isRequired,
+  decreaseQuantity: PropTypes.func.isRequired,
+  increaseQuantity: PropTypes.func.isRequired,
+  removeProduct: PropTypes.func.isRequired,
 };
 
 export default ReviewProducts;
